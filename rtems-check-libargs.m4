@@ -5,5 +5,5 @@
 # rtems_bsdnet_config.
 # In order to link, we create a dummy symbol.
 AC_DEFUN([TILLAC_RTEMS_CHECK_LIB_ARGS],
-	[[-Wl,--defsym,rtems_bsdnet_config=0]]dnl
+	[[-Wl,--defsym,rtems_bsdnet_config=0 -Wl,--start-group -lrtemsdefaultconfig -lrtemsbsp -Wl,--end-group]]dnl
 )
