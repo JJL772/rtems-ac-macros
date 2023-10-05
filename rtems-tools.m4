@@ -5,7 +5,11 @@ AC_DEFUN([TILLAC_RTEMS_CHECK_TOOLS],
 	 # This is an autoconf 'feature'. Therefore we use an ugly hack
 	 # to pass the gcc tests on a build system that has no native
 	 # compilers.
-	 if TILLAC_RTEMS_NOT_CONFIG_TOP; then : ; else
+	 if TILLAC_RTEMS_NOT_CONFIG_TOP; then
+		# Another ugly hack; compiler detection fails because of missing symbols. Link rtemsbsp and bring in a default config, *just* for this
+		# step...
+		LDFLAGS="-L$with_rtems_top/${host_cpu}-${host_os}/$rtems_bsp/lib -Wl,--start-group -lrtemsdefaultconfig -lrtemsbsp -Wl,--end-group"
+	 else
 	   CC="$SHELL $srcdir/dummycxx"
 	   CXX="$SHELL $srcdir/dummycxx"
 	   LD="$SHELL $srcdir/dummycxx"
