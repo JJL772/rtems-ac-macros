@@ -8,7 +8,8 @@ AC_DEFUN([TILLAC_RTEMS_CHECK_TOOLS],
 	 if TILLAC_RTEMS_NOT_CONFIG_TOP; then
 		# Another ugly hack; compiler detection fails because of missing symbols. Link rtemsbsp and bring in a default config, *just* for this
 		# step...
-		LDFLAGS="-L$with_rtems_top/${host_cpu}-${host_os}/$rtems_bsp/lib -Wl,--start-group -lrtemsdefaultconfig -lrtemsbsp -Wl,--end-group"
+		OLDLIBS="$LIBS"
+		LIBS="-L$with_rtems_top/${host_cpu}-${host_os}/$rtems_bsp/lib -Wl,--start-group -lrtemsbsp -lrtemsdefaultconfig -Wl,--end-group"
 	 else
 	   CC="$SHELL $srcdir/dummycxx"
 	   CXX="$SHELL $srcdir/dummycxx"
@@ -28,7 +29,9 @@ AC_DEFUN([TILLAC_RTEMS_CHECK_TOOLS],
 	   RTEMS_CHECK_TOOL([RANLIB],ranlib)
 	   AC_PROG_INSTALL
 	   AC_CHECK_PROG([INSTALL_IF_CHANGE],[install-if-change],[install-if-change],[${INSTALL}])
-	 fi]dnl
+	 fi
+	 LIBS="$OLDLIBS"
+	 ]dnl
 )
 
 dnl m4_syscmd is executed when aclocal is run
